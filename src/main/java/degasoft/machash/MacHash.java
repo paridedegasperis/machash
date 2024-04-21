@@ -14,6 +14,9 @@ public class MacHash
 	private static String xored_hash_string = new String();
 	private static byte[] xored_hash_bytes;
 
+	/**
+	 * Initializes system and generates hashes from network adapters mac addresses
+	 */
 	public static void generateHash()
 	{
 		try
@@ -73,6 +76,9 @@ public class MacHash
 		}
 	}
 
+	/**
+	 * Support function that makes bitwise xor from hashes byte arrays
+	 */
 	private static void XorHashes()
 	{
 		int len = hashes.get(0).length;
@@ -102,16 +108,27 @@ public class MacHash
 		System.out.println(hexString.toString());
 	}
 
+	
+	/** 
+	 * Return license key in byte array form
+	 * @return byte[]
+	 */
 	public static byte[] getLicenseKeyBytes()
 	{
 		return xored_hash_bytes;
 	}
 
+	
+	/** 
+	 * Return license key in hex string form
+	 * @return String
+	 */
 	public static String getLicenseKeyString()
 	{
 		return xored_hash_string;
 	}
 
+	
 	public static void main (String[] args) throws Exception
 	{
 		generateHash();
