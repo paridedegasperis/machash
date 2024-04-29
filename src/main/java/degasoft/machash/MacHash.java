@@ -27,12 +27,15 @@ public class MacHash
 				// Get network interfaces
 				NetworkInterface ni = net.nextElement();
 
+				// Skip loopback and virtual interfaces
+				if (ni.isLoopback() || ni.isVirtual()) continue;
+
 				// Get mac address
 				byte[] hardwareAddress = ni.getHardwareAddress();
 
-				// Skip loopback and virtual interfaces
-				if (ni.isLoopback() || ni.isVirtual()) continue;
-	
+				// If mac address is null skip interface
+				if (hardwareAddress == null) continue;
+
 				// Create Message Digest algorithm
 				final MessageDigest digest = MessageDigest.getInstance("SHA3-512");
 				
@@ -45,8 +48,9 @@ public class MacHash
 				// DEBUG: print mac addresses in hex format
 				for (int i = 0; i < hardwareAddress.length; i++)
 				{
-					System.out.print(String.format("%02X%s", hardwareAddress[i], (i < hardwareAddress.length - 1) ? "-" : ""));
+					System.out.print(String.format("%02X%s", hardwareAddress[i], (i < hardwareAddress.length - 1) ? ":" : ""));
 				}
+				System.out.print("- " + ni.getDisplayName() + " - is Up: " + ni.isUp());
 				System.out.println();
 			}
 
@@ -132,6 +136,6 @@ public class MacHash
 	public static void main (String[] args) throws Exception
 	{
 		generateHash();
-		System.out.println(getLicenseKeyString());
+		System.out.println("\n" + getLicenseKeyString());
 	}
 }
